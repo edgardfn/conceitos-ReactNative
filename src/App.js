@@ -16,7 +16,6 @@ export default function App() {
 
   useEffect(() => {
     api.get('/repositories').then(response => {
-      console.log(response)
       setRepositories(response.data)
     })
   }, [])
@@ -29,7 +28,51 @@ export default function App() {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
       <SafeAreaView style={styles.container}>
-        <View style={styles.repositoryContainer}>
+
+        <FlatList
+          data={repositories}
+          keyExtractor={repository => repository.id}
+          renderItem={ ({ item: repository }) => (
+            <View style={styles.repositoryContainer}>
+
+              <Text style={styles.repository}>{repository.title}</Text>
+              
+              <View style={styles.techsContainer}>
+                {repository.techs.map((tech, index) => {
+                  return <Text style={styles.tech} key={index}>{tech}</Text>
+                })}
+                {/* <FlatList
+                  data={item.techs}
+                  keyExtractor={tech => tech}
+                  renderItem={ ({ item }) => <Text style={styles.tech}>{item}</Text> }
+                /> */}
+              </View>
+              
+              <View style={styles.likesContainer}>
+                <Text
+                  style={styles.likeText}
+                  testID={`repository-likes-${repository.id}`}
+                >
+                  {repository.likes}
+                </Text>
+                
+              </View>
+              
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleLikeRepository(1)}
+                // Remember to replace "1" below with repository ID: {`like-button-${repository.id}`}
+                testID={`like-button-1`}
+              >
+                <Text style={styles.buttonText}>Curtir</Text>
+              </TouchableOpacity>
+
+            </View>
+          ) }
+        />
+
+
+        {/* <View style={styles.repositoryContainer}>
           <Text style={styles.repository}>Repository 1</Text>
 
           <View style={styles.techsContainer}>
@@ -49,17 +92,10 @@ export default function App() {
             >
               3 curtidas
             </Text>
-          </View>
+          </View> */}
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleLikeRepository(1)}
-            // Remember to replace "1" below with repository ID: {`like-button-${repository.id}`}
-            testID={`like-button-1`}
-          >
-            <Text style={styles.buttonText}>Curtir</Text>
-          </TouchableOpacity>
-        </View>
+          
+        {/* </View> */}
       </SafeAreaView>
     </>
   );
