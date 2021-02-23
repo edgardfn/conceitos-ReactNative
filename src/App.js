@@ -1,4 +1,5 @@
 import React, { useEffect, useState} from "react";
+import api from './services/api'
 
 import {
   SafeAreaView,
@@ -11,7 +12,14 @@ import {
 } from "react-native";
 
 export default function App() {
-  const [projects, setProjects] = useState([])
+  const [repositories, setRepositories] = useState([])
+
+  useEffect(() => {
+    api.get('/repositories').then(response => {
+      console.log(response)
+      setRepositories(response.data)
+    })
+  }, [])
 
   async function handleLikeRepository(id) {
     // Implement "Like Repository" functionality
