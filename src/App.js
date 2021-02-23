@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState} from "react";
 
 import {
   SafeAreaView,
@@ -11,6 +11,8 @@ import {
 } from "react-native";
 
 export default function App() {
+  const [projects, setProjects] = useState([])
+
   async function handleLikeRepository(id) {
     // Implement "Like Repository" functionality
   }
